@@ -51,6 +51,11 @@ def refresh_db() -> None:
     Example:
         $ python main.py refresh-db
     """
+    check = input("Confirm deletion (y/n): ")
+
+    if check.lower() != "y":
+        logger.info("Cancelled.")
+        return
 
     async def _refresh_db() -> None:
         storage = Storage(settings)
