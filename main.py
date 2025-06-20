@@ -44,6 +44,23 @@ def fill_db() -> None:
 
 
 @app.command()
+def refresh_db() -> None:
+    """
+    Delete data from MongoDB collections
+
+    Example:
+        $ python main.py refresh-db
+    """
+
+    async def _refresh_db() -> None:
+        storage = Storage(settings)
+        await storage.arefresh_db()
+        logger.info("MongoDB collections refreshed.")
+
+    asyncio.run(_refresh_db())
+
+
+@app.command()
 def search(
     field: str = typer.Argument(..., help="Field name to search by"),
     value: str = typer.Argument(..., help="Value to search for"),

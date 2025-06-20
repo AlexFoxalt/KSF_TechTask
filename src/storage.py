@@ -88,3 +88,11 @@ class Storage:
         if coll is None:
             raise StorageException("Unexpected coll name")
         return await coll.find(filters).to_list()
+
+    async def arefresh_db(self) -> None:
+        """
+        Refresh the MongoDB by deleting all items in the blocks and transactions collections.
+        """
+        await asyncio.gather(
+            self._blocks_coll.delete_many({}), self._transactions_coll.delete_many({})
+        )
